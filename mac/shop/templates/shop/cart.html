@@ -27,36 +27,66 @@
 
         <br>
 
+    {% if cart %}
         <div class="box-element">
             <div class="cart-row">
                 <div style="flex:2"></div>
                 <div style="flex:2">Item</div>
                 <div style="flex:1">Price</div>
                 <div style="flex:1">Qty</div>
+                <div style="flex:1">Gms</div>
                 <div style="flex:1"><strong>Total</strong></div>
+                <div style="flex:1"></div>
             </div>
 
-            {% for item in cart %}
-            <div class="cart-row">
-                <div style="flex:2"><img style="width:100px;" class="row-img" src='/media/{{product.image}}'></div>
-                <div style="flex:2">{{item.product.name}}</div>
-                <div style="flex:1">Rs {{item.price}}</div>
-                    <p class="quantity">{{item.quantity}}gm</p>
-                    <div class="quantity">
-                        <img class="chg-quantity" src="{% stat                <div style="flex:1">
-ic 'shop/up.png' %}">
-                        <img class="chg-quantity" src="{% static 'shop/down.png' %}">
+                {% for item in cart %}
+                <div class="cart-row">
+                    <div style="flex:2"><img style="width:100px;" class="row-img" src='/media/{{item.product.image}}'></div>
+                    <div style="flex:2">{{item.product.product_name}}</div>
+                    <div style="flex:1">Rs. {{item.unit_price}}</div>
+                        <p class="quantity">{{item.quantity}}</p>
+                        <div class="quantity">
+                            <img class="chg-quantity" src="{% static 'shop/down.png' %}">
+                        </div>
+                    <div style="flex:1">{{item.gms}} g</div>
+                    <div style="flex:1">
+                        Rs. {{item.total_price}}
+                    </div>
+                    <div style="flex:1">
+                        <img class="chg-quantity remove_product" id="{{ item.product.id }}" src="{% static 'shop/down.png' %}">
                     </div>
                 </div>
-            <div style="flex:1"></div>
-            {% endfor %}
-        </div> </div>
+                {% endfor %}
+                <div class="text-right">
+                    <strong>Subtotal: Rs. {{ subtotal }}</strong>
+                </div>
+        </div>
+    {% else %}
+        <strong class="text-center">The cart is empty</strong>
+    {% endif %}
+    </div>
             </div>
     </div>
 </div>
 {% endblock %}
 {% block js %}
-<script>
+    <script>
+        $('.remove_product').click(function(){
+            let product_id = $(this).attr('id');
 
-</script>
+            $.ajax({
+                url: '../remove-from-cart/',
+                type: 'POST',
+                data: {
+                    product_id: product_id,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: () => {
+                    alert('The product was deleted from cart!');
+                    location.reload();  // Reload the page after deleting for cart updating},
+                },
+                error: message_from_server => console.error('An error occurred: ' + message_from_server)
+            });
+        });
+    </script>
 {% endblock %}

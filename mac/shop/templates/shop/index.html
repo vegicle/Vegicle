@@ -28,7 +28,7 @@
 
 
 <span style="display: inherit;">
-  <select class="form-control quantity" name="quantity" id="quantity" >
+  <select class="form-control quantity" name="quantity" id="quantity" data-product="{{ product.id }}">
        {% for item in product.varients.all %}
        <option id="options" value="{{ item.price }}">{{ item.quantity}}</option>
       {% endfor %}
@@ -61,6 +61,29 @@
 {% endblock %}<!--block end for main content-->
 
 {% block js %}
+
+<script>
+    $('.update-cart').click(function(){
+        let dataProduct = $(this).attr('data-product').substring(2);
+        let selected_quantity = $(".quantity[data-product='"+dataProduct+"'] option:selected").text().replace(" ", "");
+        let selected_price = $(".quantity[data-product='"+dataProduct+"']").val().replace(" ", "");
+        let product_id = dataProduct;
+
+        $.ajax({
+            url: '../add-to-cart/',
+            type: 'POST',
+            data: {
+                product_id: product_id,
+                gms: selected_quantity,
+                price: selected_price,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: () => alert('The product was added to the cart!'),
+            error: message_from_server => console.error('An error occurred: ' + message_from_server)
+        });
+    });
+</script>
+
 <script>
 
 var updateBtns = document.getElementsByClassName('update-cart')

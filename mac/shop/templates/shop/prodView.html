@@ -47,14 +47,21 @@
 {% block js %}
     <script>
         $('#add-to-cart').click(()=>{
-            console.log('çlicked');
             let selected_quantity = $('#quantity option:selected').text().replace(" ", "");
             let selected_price = $('#quantity').val().replace(" ", "");
             let product_id = {{ product.id }};
 
             $.ajax({
-                url: '../add-to-cart/'+product_id+'/'+selected_quantity+'/'+selected_price+'/',
-
+                url: '../add-to-cart/',
+                type: 'POST',
+                data: {
+                    product_id: product_id,
+                    gms: selected_quantity,
+                    price: selected_price,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: () => alert('The product was added to the cart!'),
+                error: message_from_server => console.error('An error occurred: ' + message_from_server)
             });
         });
     </script>

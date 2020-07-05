@@ -4,6 +4,7 @@ sys.path.append('..')
 from django.shortcuts import render
 from .models import *
 from cart.cart import Cart
+from cart.models import Item
 from decimal import Decimal
 
 
@@ -38,23 +39,41 @@ def checkout(request):
     return render(request, 'shop/checkout.html', params)
 
 
-def add_to_cart(request, product_id, quantity, price):
+def add_to_cart(request):
+    product_id = request.POST.get('product_id')
+    gms = request.POST.get('gms')
+    price = request.POST.get('price')
+
     product = Product.objects.get(id=product_id)
     cart = Cart(request)
-    if price in product.varients.all():
-        price_num = Decimal(price[:, price.find('r')].replace(',', '.'))
-        quantity_num = int(quantity[:, quantity.find('g')])
-        cart.add(product, price_num, quantity_num)
+
+    for varient in product.varients.all():
+        if price == varient.price.replace(" ", ""):
+            if price.find('r') is not -1:
+                price_num = Decimal(price[:price.find('r')])
+            elif price.find('R') is not -1:
+                price_num = Decimal(price[:price.find('R')])
+            else:
+                return JsonResponse({'message': 'something went wrong'}, status=500)
+            gms_num = int(gms[:gms.find('g')])
+            cart.add(product, price_num, gms_num)
+            break
+    return JsonResponse({'message': 'successful'}, status=200)
 
 
-def remove_from_cart(request, product_id):
+def remove_from_cart(request):
+    product_id = int(request.POST.get('product_id'))
     product = Product.objects.get(id=product_id)
     cart = Cart(request)
     cart.remove(product)
+    return JsonResponse({'message': 'successful'}, status=200)
 
 
 def get_cart(request):
-    return render(request, 'shop/cart.html', {'cart': Cart(request)})
+    subtotal = 0
+    for item in Cart(request):
+        subtotal = item.total_price + subtotal
+    return render(request, 'shop/cart.html', {'cart': Cart(request), 'subtotal': subtotal})
 
 
 def about(request):
