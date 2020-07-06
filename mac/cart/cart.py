@@ -76,7 +76,6 @@ class Cart:
     def is_empty(self):
         return self.count() == 0
 
-    @property
     def cart_serializable(self):
         representation = {}
         for item in self.cart.item_set.all():

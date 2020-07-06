@@ -54,7 +54,7 @@ nav ul li a:hover{
 }
 
 }
-@media(max-width:992px){
+@media(max-width:1108px){
 .nav-item{
         display:none;
   }
