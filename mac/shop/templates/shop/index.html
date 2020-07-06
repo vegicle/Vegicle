@@ -39,10 +39,6 @@
 <hr>
 
 
-
-<!--       <span id="divpr{{i.id}}" class="divpr">-->
-<!--           <button id="pr{{i.id}}" class="btn btn-outline-success cart">Add</button>-->
-<!--       </span>-->
 <span><a href="products/{{product.id}}"><button id="qv{{i.id}}" class="btn btn-primary cart">View</button></a>
 
 <button data-product="pr{{product.id}}" data-action="add" class="btn btn-outline-success update-cart">Add</button></span>
@@ -78,14 +74,17 @@
                 price: selected_price,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
-            success: () => alert('The product was added to the cart!'),
+            success: () => {
+                alert('The product was added to the cart!'),
+                location.reload();
+            },
             error: message_from_server => console.error('An error occurred: ' + message_from_server)
         });
     });
 </script>
 
 <script>
-
+/*
 var updateBtns = document.getElementsByClassName('update-cart')
 
 for(var i = 0;i < updateBtns.length; i++ ){
@@ -129,7 +128,7 @@ function updateUserOrder(productId, action){
 
 
 
-/*
+
 // Find out the cart items from localStorage
 if (localStorage.getItem('cart') == null) {
     var cart = {};
@@ -202,4 +201,5 @@ $('.divpr').on("click", "button.plus", function() {
 });
 */
 </script>
+
 {% endblock %}

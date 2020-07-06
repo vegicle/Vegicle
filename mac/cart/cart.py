@@ -42,7 +42,8 @@ class Cart:
             item.gms += int(gms)
             item.save()
         else:
-            models.Item.objects.create(cart=self.cart, product=product, unit_price=unit_price, gms=gms, quantity=quantity)
+            models.Item.objects.create(cart=self.cart, product=product, unit_price=unit_price, gms=gms,
+                                       quantity=quantity)
 
     def remove(self, product):
         item = models.Item.objects.filter(cart=self.cart, product=product).first()
@@ -67,7 +68,7 @@ class Cart:
         return self.cart.item_set.all().aggregate(Sum('quantity')).get('quantity__sum', 0)
 
     def summary(self):
-        return self.cart.item_set.all().aggregate(total=Sum(F('quantity')*F('unit_price'))).get('total', 0)
+        return self.cart.item_set.all().aggregate(total=Sum(F('quantity') * F('unit_price'))).get('total', 0)
 
     def clear(self):
         self.cart.item_set.all().delete()
@@ -75,6 +76,7 @@ class Cart:
     def is_empty(self):
         return self.count() == 0
 
+    @property
     def cart_serializable(self):
         representation = {}
         for item in self.cart.item_set.all():

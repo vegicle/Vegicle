@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
+from pytz import unicode
 
 
 class Cart(models.Model):
@@ -21,14 +22,14 @@ class ItemManager(models.Manager):
         if 'product' in kwargs:
             kwargs['content_type'] = ContentType.objects.get_for_model(type(kwargs['product']))
             kwargs['object_id'] = kwargs['product'].pk
-            del(kwargs['product'])
+            del (kwargs['product'])
         return super(ItemManager, self).get(*args, **kwargs)
 
     def filter(self, *args, **kwargs):
         if 'product' in kwargs:
             kwargs['content_type'] = ContentType.objects.get_for_model(type(kwargs['product']))
             kwargs['object_id'] = kwargs['product'].pk
-            del(kwargs['product'])
+            del (kwargs['product'])
         return super(ItemManager, self).filter(*args, **kwargs)
 
 
@@ -53,6 +54,7 @@ class Item(models.Model):
 
     def total_price(self):
         return self.quantity * self.unit_price
+
     total_price = property(total_price)
 
     # product
