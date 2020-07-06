@@ -55,14 +55,16 @@
           <i style='font-size:12px' class='fas'>&#xf007;</i> ACCOUNT
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#"><i style='font-size:15px; ' class='fas'>&#xf007;</i> Your Account</a>
+      {% if user.id is not None %}
+          <a class="dropdown-item" href="#"><i style='font-size:15px; ' class='fas'>&#xf007;</i> {{ user.username}}</a>
 
              <div class="dropdown-divider"></div>
-
-          <a class="dropdown-item" href="#">Register</a>
-
-          <a class="dropdown-item text-center bg-success" href="#">Log In</a>
+      {% else %}
+          <a class="dropdown-item text-center" href="/signup">Register</a>
+             <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-center bg-success" href="/login">Log In</a>
         </div>
+      {% endif %}
       </li>
 
        <li>
@@ -187,15 +189,17 @@
 
 
 <li style="flex:2">
-<a href="#" class="dropdown" data-toggle="dropdown" aria-hoshpopup="true" aria-expended="false" id="bottomaccount" style="color: rgb(46, 46, 46);"><i style='font-size:20px' class="material-icons">&#xe316;</i><i style='font-size:20px' class='fas'>&#xf007;</i></a>
+<a href="#" class="dropdown" data-toggle="dropdown" aria-hoshpopup="true" aria-expended="false" id="bottomaccount" style="color: rgb(46, 46, 46);"><i style='font-size:20px' class='fas'>&#xf007;</i></a>
 <div class="dropdown-menu dropdown-menu-right bg-light">
+{% if user.id is not None %}
+    <a  class="dropdown-item text-center" href="#"> <i style='font-size:15px; ' class='fas'>&#xf007;</i> {{ user.username}}</a>
 
-    <a  class="dropdown-item text-center" href="#"> <i style='font-size:15px; ' class='fas'>&#xf007;</i> Your Account</a>
 
-
-
-            <a class="dropdown-item text-center" href="customer_register.php">Register</a>
-            <a class="dropdown-item text-center bg-success" href="#">Login</a>
+{% else %}
+            <a class="dropdown-item text-center" href="/signup">Register</a>
+             <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-center bg-success" href="/login">Log In</a>
+    {% endif %}
     </div>
 </li>
 

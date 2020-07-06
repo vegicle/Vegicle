@@ -54,11 +54,19 @@ nav ul li a:hover{
 }
 
 }
-@media(max-width:1108px){
+@media(max-width:992px){
 .nav-item{
         display:none;
   }
   .contact_us{
+        display:none;
+  }
+}
+@media(max-width:1108px){
+.about{
+        display:none;
+  }
+  .membership{
         display:none;
   }
 }
