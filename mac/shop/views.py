@@ -41,23 +41,13 @@ def checkout(request):
 
 def add_to_cart(request):
     product_id = request.POST.get('product_id')
-    gms = request.POST.get('gms')
-    price = request.POST.get('price')
+    price = Decimal(request.POST.get('price'))
 
+    print(product_id)
     product = Product.objects.get(id=product_id)
+    product_varient = product.varients.all().get(price=price)
     cart = Cart(request)
-
-    for varient in product.varients.all():
-        if price == varient.price.replace(" ", ""):
-            if price.find('r') is not -1:
-                price_num = Decimal(price[:price.find('r')])
-            elif price.find('R') is not -1:
-                price_num = Decimal(price[:price.find('R')])
-            else:
-                return JsonResponse({'message': 'something went wrong'}, status=500)
-            gms_num = int(gms[:gms.find('g')])
-            cart.add(product, price_num, gms_num)
-            break
+    cart.add(product, product_varient.price, product_varient)
     return JsonResponse({'message': 'successful'}, status=200)
 
 

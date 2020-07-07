@@ -1,3 +1,4 @@
+
 from django.contrib import admin
 
 from django.urls import path
@@ -19,4 +20,5 @@ urlpatterns = [
     path("add-to-cart/", views.add_to_cart, name="AddToCart"),
     path("remove-from-cart/", views.remove_from_cart, name="RemoveFromCart"),
     path("cart/", views.get_cart, name="Cart"),
+
 ]
