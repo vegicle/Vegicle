@@ -43,11 +43,10 @@ def add_to_cart(request):
     product_id = request.POST.get('product_id')
     price = Decimal(request.POST.get('price'))
 
-    print(product_id)
     product = Product.objects.get(id=product_id)
     product_varient = product.varients.all().get(price=price)
     cart = Cart(request)
-    cart.add(product, product_varient.price, product_varient)
+    cart.add(product, product_varient.price, product_varient.id)
     return JsonResponse({'message': 'successful'}, status=200)
 
 
@@ -59,11 +58,23 @@ def remove_from_cart(request):
     return JsonResponse({'message': 'successful'}, status=200)
 
 
+def update_cart_item(request):
+    item_id = int(request.POST.get('item_id'))
+    new_quantity = int(request.POST.get('new_quantity'))
+    item_to_update = Item.objects.get(id=item_id)
+    item_to_update.quantity = new_quantity
+    item_to_update.save()
+    return JsonResponse({'message': 'successful'}, status=200)
+
+
 def get_cart(request):
     subtotal = 0
+    cart = list()
     for item in Cart(request):
         subtotal = item.total_price + subtotal
-    return render(request, 'shop/cart.html', {'cart': Cart(request), 'subtotal': subtotal})
+        varient = Varients.objects.get(id=item.product_varient_id)
+        cart.append({'item': item, 'varient': varient})
+    return render(request, 'shop/cart.html', {'cart': cart, 'subtotal': subtotal})
 
 
 def about(request):

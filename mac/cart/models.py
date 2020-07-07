@@ -37,6 +37,7 @@ class Item(models.Model):
     cart = models.ForeignKey(Cart, verbose_name=_('cart'), on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(verbose_name=_('quantity'))
     unit_price = models.DecimalField(max_digits=18, decimal_places=2, verbose_name=_('unit price'))
+    product_varient_id = models.IntegerField(default=0)
     # product as generic relation
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
@@ -64,13 +65,3 @@ class Item(models.Model):
         self.object_id = product.pk
 
     product = property(get_product, set_product)
-
-    # product_varient
-    def get_product_varient(self):
-        return self.content_type.get_object_for_this_type(pk=self.object_id)
-
-    def set_product_varient(self, product_varient):
-        self.content_type = ContentType.objects.get_for_model(type(product_varient))
-        self.object_id = product_varient.pk
-
-    product_varient = property(get_product_varient, set_product_varient)
