@@ -33,8 +33,9 @@ class Product(models.Model):
 
 class Varients(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='varients')
-    quantity = models.CharField(max_length=50, blank=True, null=True)
-    price = models.CharField(max_length=50, blank=True, help_text='The price of product')
+    quantity_number = models.PositiveIntegerField(default=0)
+    quantity_measure = models.CharField(max_length=50, default='gms', null=True, help_text='gms, kg, etc.')
+    price = models.DecimalField(default=0, decimal_places=2, max_digits=10)
 
     def __str__(self):
         return self.product.product_name

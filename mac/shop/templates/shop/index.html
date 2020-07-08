@@ -30,10 +30,10 @@
 <span style="display: inherit;">
   <select class="form-control quantity" name="quantity" id="quantity" data-product="{{ product.id }}">
        {% for item in product.varients.all %}
-       <option id="options" value="{{ item.price }}">{{ item.quantity}}</option>
+       <option id="options" value="{{ item.price }}">{{ item.quantity_number}} {{ item.quantity_measure}}</option>
       {% endfor %}
   </select>
-<h6 style="float:right;" class="product_price">{{ product.varients.first.price }}</h6>
+<h6 style="float:right;" class="product_price">Rs. {{ product.varients.first.price }}</h6>
 </span>
 <br>
 <hr>
@@ -61,8 +61,7 @@
 <script>
     $('.update-cart').click(function(){
         let dataProduct = $(this).attr('data-product').substring(2);
-        let selected_quantity = $(".quantity[data-product='"+dataProduct+"'] option:selected").text().replace(" ", "");
-        let selected_price = $(".quantity[data-product='"+dataProduct+"']").val().replace(" ", "");
+        let selected_price = $(".quantity[data-product='"+dataProduct+"']").val();
         let product_id = dataProduct;
 
         $.ajax({
@@ -70,7 +69,6 @@
             type: 'POST',
             data: {
                 product_id: product_id,
-                gms: selected_quantity,
                 price: selected_price,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },

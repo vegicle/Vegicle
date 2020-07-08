@@ -2,6 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import *
+from cart.models import Cart
 
 
 class VarientsAdmin(admin.TabularInline):
@@ -20,3 +21,4 @@ admin.site.register(Customer)
 admin.site.register(Slider)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Contact)
+admin.site.register(Cart)

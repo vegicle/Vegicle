@@ -42,6 +42,6 @@
 
 $('.quantity').change(function(){
     $(this).next('.product_price').empty();
-    $(this).next('.product_price').append($(this).val());
+    $(this).next('.product_price').append("Rs. " + $(this).val());
 });
 

@@ -34,16 +34,15 @@ class Cart:
         request.session[CART_ID] = cart.id
         return cart
 
-    def add(self, product, unit_price, gms, quantity=1):
+    def add(self, product, unit_price, product_varient_id, quantity=1):
         item = models.Item.objects.filter(cart=self.cart, product=product).first()
         if item:
             item.unit_price = unit_price
             item.quantity += int(quantity)
-            item.gms += int(gms)
             item.save()
         else:
-            models.Item.objects.create(cart=self.cart, product=product, unit_price=unit_price, gms=gms,
-                                       quantity=quantity)
+            models.Item.objects.create(cart=self.cart, product=product,
+                                       unit_price=unit_price, product_varient_id=product_varient_id, quantity=quantity)
 
     def remove(self, product):
         item = models.Item.objects.filter(cart=self.cart, product=product).first()
