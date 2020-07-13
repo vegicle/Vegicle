@@ -237,3 +237,11 @@ padding-right:10px;
     cursor:pointer;
     display:block
 }
+.list-links li a{
+    text-decoration:none;
+    color:grey;
+}
+.list-links li :hover a{
+    text-decoration:none;
+    color:black;
+}

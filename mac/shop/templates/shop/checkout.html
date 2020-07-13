@@ -12,18 +12,19 @@
 }
 </style>
 <div class="container">
-    <h2>Step 1: Checkout - Review Your Cart</h2>
-    <hr>
-    {% for item in items %}
-     <div class="cart-row">
-         <div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"> </div>
-         <div style="flex:2"><p>{{item.product.name}}</p> </div>
-         <div style="flex:1"><p>Rs {{item.varients.first.price}}</p></div>
-         <div style="flex:1"><p>2 {{item.quantity}}</p></div>
+    {% for ins in instruction %}
+        <div class="alert alert-warning" role="alert">
+            {{ins.instruction}}
+        </div>
+        {% endfor %}
+    <div class="col my-4">
+
+        <h2>Step 1 - My Awesome Cart Express Checkout - Review Your Cart Items</h2>
+        <div class="my-4">
+            <ul class="list-group" id="items">
+            </ul>
+        </div>
     </div>
-    {% endfor %}
-    <h5>Items: {{order.get_cart_items}}</h5>
-    <h5>Total: Rs {{order.get_cart_total}}</h5>
     <div class="col my-4">
         <h2>Step 2 - Enter Address & Other Details:</h2>
         <form>
@@ -67,4 +68,9 @@
         </form>
     </div>
 </div>
+{% endblock %}
+{% block js %}
+<script>
+
+</script>
 {% endblock %}

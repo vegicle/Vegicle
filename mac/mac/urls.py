@@ -21,11 +21,12 @@ from user import views as UserViews
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('shop.urls')),
-    path("user/", include('user.urls')),
+                  path('admin/', admin.site.urls),
+                  path('', include('shop.urls')),
+                  path("user/", include('user.urls')),
 
-    path('login/', UserViews.login_form, name='login_form'),
-    path('signup/', UserViews.signup_form, name='login_form'),
+                  path('login/', UserViews.login_form, name='login_form'),
+                  path('signup/', UserViews.signup_form, name='login_form'),
+                  path('logout/', UserViews.logout_func, name='logout_form'),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

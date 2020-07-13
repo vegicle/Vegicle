@@ -1,0 +1,50 @@
+{% extends 'shop/basic.html' %}
+
+{% block title%} Order List {% endblock %}
+
+{% block body %}
+<style rel="stylesheet">
+  .main_content{
+    margin-left: 0px;
+}
+.wrapper{
+  display:none;
+}
+</style>
+
+<div class="section">
+    <div class="row">
+        <div class="container">
+            <div class="col-mg-12">
+                <div class="section-title">
+                    <h3 class="title">Order List</h3>
+                </div>
+                <table class="">
+                    <thead>
+                    <tr>
+                        <th class="text-left">Id</th>
+                        <th class="text-left">First Name</th>
+                        <th class="text-left">Last Name</th>
+                        <th class="text-left">Total</th>
+                        <th class="text-left">Status</th>
+                        <th class="text-left">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for rs in orders %}
+                    <tr>
+                        <td class="text-left">{{rs.id}}</td>
+                        <td class="text-left">{{rs.first_name}}</td>
+                        <td class="text-left">{{rs.last_name}}</td>
+                        <td class="text-left">{{rs.total}}</td>
+                        <td class="text-left">{{rs.status}}</td>
+                        <td class="text-left">{{rs.create_at}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
