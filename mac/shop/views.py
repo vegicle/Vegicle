@@ -15,6 +15,7 @@ def varient(args):
 
 def index(request):
     allProds = []
+
     slider = Slider.objects.all()
     catprods = Product.objects.values('category', 'id')
     cats = {item['category'] for item in catprods}
@@ -35,7 +36,9 @@ def productView(request, myid):
 
 
 def checkout(request):
-    params = {}
+    instruction = Instruction.objects.all()
+    params = {'instruction': instruction}
+
     return render(request, 'shop/checkout.html', params)
 
 

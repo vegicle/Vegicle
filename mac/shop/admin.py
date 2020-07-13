@@ -17,6 +17,7 @@ class ProductAdmin(admin.ModelAdmin):
     ]
 
 
+admin.site.register(Instruction)
 admin.site.register(Customer)
 admin.site.register(Slider)
 admin.site.register(Product, ProductAdmin)

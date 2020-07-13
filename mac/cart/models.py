@@ -1,4 +1,6 @@
+from django.contrib.auth.models import User
 from django.db import models
+from django.forms import ModelForm
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from pytz import unicode
@@ -54,6 +56,7 @@ class Item(models.Model):
 
     def total_price(self):
         return self.quantity * self.unit_price
+
     total_price = property(total_price)
 
     # product
