@@ -11,15 +11,20 @@ class VarientsAdmin(admin.TabularInline):
     extra = 0
 
 
+@admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     inlines = [
         VarientsAdmin,
     ]
 
 
-admin.site.register(Instruction)
+@admin.register(Instruction)
+class InstructionAdmin(admin.ModelAdmin):
+    list_display = ['title', 'id']
+    search_fields = ['title', 'id']
+
+
 admin.site.register(Customer)
 admin.site.register(Slider)
-admin.site.register(Product, ProductAdmin)
 admin.site.register(Contact)
 admin.site.register(Cart)

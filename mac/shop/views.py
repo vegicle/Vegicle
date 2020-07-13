@@ -36,10 +36,23 @@ def productView(request, myid):
 
 
 def checkout(request):
-    instruction = Instruction.objects.all()
-    params = {'instruction': instruction}
+    instruction = Instruction.objects.get(title='checkout-instruction')
+    subtotal = 0
+    for item in Cart(request):
+        subtotal = item.total_price + subtotal
 
-    return render(request, 'shop/checkout.html', params)
+    if request.method == 'GET':
+        if subtotal < instruction.min_coast:
+            return render(request, 'shop/checkout.html', {'instruction': instruction.instruction_message})
+        else:
+            return render(request, 'shop/checkout.html')
+    if request.method == 'POST':
+        if subtotal >= instruction.min_coast:
+            return JsonResponse({"status": "The order was created successfully", "code": 0})
+            pass
+        else:
+            return JsonResponse({"status": instruction.instruction_message, "code": 1})
+        pass
 
 
 def add_to_cart(request):

@@ -55,7 +55,12 @@ class Contact(models.Model):
 
 
 class Instruction(models.Model):
-    instruction = models.CharField(blank=True, max_length=200)
+    title = models.CharField(default="", max_length=200)
+    instruction_message = models.CharField(blank=True, max_length=1000)
+    min_coast = models.DecimalField(default=0, decimal_places=2, max_digits=10, help_text='Minimal coast of something')
+
+    def __str__(self):
+        return self.title
 #
 # class Order(models.Model):
 #     STATUS = (
