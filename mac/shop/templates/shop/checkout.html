@@ -12,11 +12,11 @@
 }
 </style>
 <div class="container">
-    {% for ins in instruction %}
-        <div class="alert alert-warning" role="alert">
-            {{ins.instruction}}
-        </div>
-        {% endfor %}
+    {% if instruction %}
+    <div class="alert alert-warning" role="alert">
+        {{ instruction }}
+    </div>
+    {% endif %}
     <div class="col my-4">
 
         <h2>Step 1 - My Awesome Cart Express Checkout - Review Your Cart Items</h2>
@@ -27,7 +27,7 @@
     </div>
     <div class="col my-4">
         <h2>Step 2 - Enter Address & Other Details:</h2>
-        <form>
+        <form id="checkout-form" method="post">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputname">Name</label>
@@ -71,6 +71,22 @@
 {% endblock %}
 {% block js %}
 <script>
-
+    $('#checkout-form').submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: '',
+            data: {
+                form_data: $(this).serialize(),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'POST',
+            success: message => {
+                alert(message.status);
+                if (message.code === 0)
+                    alert("Going to step 2...")
+            },
+            error: () => console.error("Something went wrong")
+        });
+    });
 </script>
 {% endblock %}
