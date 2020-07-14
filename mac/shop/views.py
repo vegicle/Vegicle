@@ -6,6 +6,7 @@ from .models import *
 from cart.cart import Cart
 from cart.models import Item
 from decimal import Decimal
+from user.models import UserProfile
 
 
 # Create your views here.
@@ -40,6 +41,11 @@ def checkout(request):
     subtotal = 0
     items_count = 0
     cart = list()
+
+    user = None
+    if request.user.is_authenticated:
+        user = UserProfile.objects.get(user=request.user)
+
     for item in Cart(request):
         subtotal = item.total_price + subtotal
         items_count = items_count + 1
@@ -50,10 +56,10 @@ def checkout(request):
         if subtotal < instruction.min_coast:
             return render(request, 'shop/checkout.html', {'instruction': instruction.instruction_message,
                                                           'cart': cart, 'subtotal': subtotal,
-                                                          'items_count': items_count})
+                                                          'items_count': items_count, 'user': user})
         else:
             return render(request, 'shop/checkout.html', {'cart': cart, 'subtotal': subtotal,
-                                                          'items_count': items_count})
+                                                          'items_count': items_count, 'user': user})
     if request.method == 'POST':
         if subtotal >= instruction.min_coast:
             return JsonResponse({"status": "The order was created successfully", "code": 0})
