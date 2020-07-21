@@ -3,14 +3,6 @@
 {% block title%}{{user.first_name}} Profile{% endblock %}
 
 {% block body %}
-<style rel="stylesheet">
-  .main_content{
-    margin-left: 0px;
-}
-.wrapper{
-  display:none;
-}
-</style>
 
 <div class="section">
     <div class="container">
@@ -40,20 +32,20 @@
                     </tr>
                     <tr>
                         <th class="text-left">Phone</th>
-                        <td class="text-left">{{ user.phone}}</td>
+                        <td class="text-left">{{ user.username}}</td>
                     </tr>
                     <tr>
                         <th class="text-left">Address</th>
-                        <td class="text-left">{{ user.address}}</td>
+                        <td class="text-left">{{ profile.address}}</td>
                     </tr>
 
                     <tr>
                         <th class="text-left">State</th>
-                        <td class="text-left">{{ user.state}}</td>
+                        <td class="text-left">{{ profile.state}}</td>
                     </tr>
                     <tr>
                         <th class="text-left">City</th>
-                        <td class="text-left">{{ user.city}}</td>
+                        <td class="text-left">{{ profile.city}}</td>
                     </tr>
                 </table>
             </div>

@@ -61,55 +61,14 @@ class Instruction(models.Model):
 
     def __str__(self):
         return self.title
-#
-# class Order(models.Model):
-#     STATUS = (
-#         ('New', 'New'),
-#         ('Accepted', 'Accepted'),
-#         ('Preparing', 'Preparing'),
-#         ('OnShipping', 'OnShipping'),
-#         ('Completed', 'Completed'),
-#         ('Cancelled', 'Cancelled'),
-#     )
-#
-#     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-#     code = models.CharField(max_length=15, editable=False)
-#     first_name = models.CharField(max_length=10)
-#     last_name = models.CharField(max_length=10)
-#     username = models.CharField(blank=True, max_length=20)
-#     address = models.CharField(blank=True, max_length=200)
-#     state = models.CharField(blank=True, max_length=20)
-#     city = models.CharField(blank=True, max_length=20)
-#     total = models.FloatField()
-#     status = models.CharField(max_length=10, choices=STATUS, default='New')
-#     ip = models.CharField(blank=True, max_length=2)
-#     adminnote = models.CharField(blank=True, max_length=100)
-#     create_at = models.DateTimeField(auto_now_add=True)
-#     update_at = models.DateTimeField(auto_now=True)
-#
-#     def __str__(self):
-#         return self.user.first_name
-#
-#
-# class OrderForm(ModelForm):
-#     class Meta:
-#         model = Order
-#         fields = ['first_name', 'last_name', 'address', 'username', 'state', 'city']
-#
-#
-# class OrderProduct(models.Model):
-#     STATUS = (
-#         ('New', 'New'),
-#         ('Accepted', 'Accepted'),
-#         ('Cancelled', 'Cancelled'),
-#     )
-#
-#     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-#     quantity = models.CharField(max_length=20, blank=True)
-#     price = models.CharField(max_length=20, blank=True)
-#     amount = models.CharField(max_length=20, blank=True)
-#     status = models.CharField(max_length=10, choices=STATUS, default='New')
-#     create_at = models.DateTimeField(auto_now_add=True)
-#     update_at = models.DateTimeField(auto_now=True)
+
+
+class Order(models.Model):
+    order_id = models.AutoField(primary_key=True)
+    items = models.CharField(max_length=5000, blank=True)
+    firstName = models.CharField(max_length=50, blank=True)
+    lastName = models.CharField(max_length=50, blank=True)
+    email = models.CharField(max_length=110, blank=True)
+    phone = models.CharField(max_length=30, blank=True)
+    address = models.CharField(max_length=500, blank=True)
+    city = models.CharField(max_length=50, blank=True)

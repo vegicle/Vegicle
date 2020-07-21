@@ -24,6 +24,7 @@ class InstructionAdmin(admin.ModelAdmin):
     search_fields = ['title', 'id']
 
 
+admin.site.register(Order)
 admin.site.register(Customer)
 admin.site.register(Slider)
 admin.site.register(Contact)

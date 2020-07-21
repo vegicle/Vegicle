@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 import sys
+
 sys.path.append('..')
 from django.shortcuts import render
 from .models import *
@@ -62,8 +63,18 @@ def checkout(request):
                                                           'items_count': items_count, 'user': user})
     if request.method == 'POST':
         if subtotal >= instruction.min_coast:
+            print(request.POST)
+
+            firstName = request.POST.get('firstName', '')
+            lastName = request.POST.get('lastName', '')
+            email = request.POST.get('email', '')
+            phone = request.POST.get('username', '')
+            address = request.POST.get('address', '')
+            city = request.POST.get('city', '')
+            Order.objects.create(firstName=firstName, lastName=lastName, email=email, phone=phone, address=address,
+                                 city=city)
+
             return JsonResponse({"status": "The order was created successfully", "code": 0})
-            pass
         else:
             return JsonResponse({"status": instruction.instruction_message, "code": 1})
         pass
@@ -136,3 +147,9 @@ def tracker(request):
 
 def search(request):
     return render(request, 'shop/search.html')
+
+
+# def orderproduct(request):
+#     current_user = request.user
+#     shopcart = ShopCart.objects.filter
+

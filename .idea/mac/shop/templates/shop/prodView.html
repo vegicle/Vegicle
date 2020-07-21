@@ -1,0 +1,66 @@
+{% extends 'shop/basic.html' %}
+
+
+{% block title%} {{product.product_name}} {% endblock %}
+{% block body %}
+<style rel="stylesheet">
+  .main_content{
+    margin-left: 0px;
+}
+.wrapper{
+  display:none;
+}
+</style>
+
+
+<div class="container my-5">
+<div class="row">
+    <div class="col-md-4">
+    <div class="row">
+        <img src="/media/{{product.image}}" width="300px" height="300px">
+    </div>
+        <hr>
+        <div class="row">
+            <button class="btn btn-success" id="add-to-cart">Add To Cart</button>
+        </div>
+
+    </div>
+
+    <div class="col-md-8">
+        <h3>{{product.product_name}}</h3>
+        <hr>
+             <span style="display: inline-grid;">
+                <select class="form-control quantity" name="quantity" id="quantity" >
+               {% for item in product.varients.all %}
+                   <option id="options" value="{{ item.price }}">{{ item.quantity_number}} {{ item.quantity_measure}}</option>
+               {% endfor %}
+                </select>
+                &nbsp<h4 style="float:right;" class="product_price">Rs. {{ product.varients.first.price }}</h4>
+             </span>
+    </div>
+</div>
+</div>
+
+
+
+{% endblock %}
+{% block js %}
+    <script>
+        $('#add-to-cart').click(()=>{
+            let selected_price = $('#quantity').val();
+            let product_id = {{ product.id }};
+
+            $.ajax({
+                url: '../add-to-cart/',
+                type: 'POST',
+                data: {
+                    product_id: product_id,
+                    price: selected_price,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: () => alert('The product was added to the cart!'),
+                error: message_from_server => console.error('An error occurred: ' + message_from_server)
+            });
+        });
+    </script>
+{% endblock %}

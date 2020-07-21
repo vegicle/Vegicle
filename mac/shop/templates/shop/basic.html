@@ -16,20 +16,9 @@
     <link href="{% static 'css/swiper.css' %}" rel= "stylesheet">
     <link href="{% static 'css/style.css' %}" rel= "stylesheet">
     <title>{% block title%} {% endblock %}</title>
-    <script type="text/javascript">
-
-    </script>
 </head>
-
 <body>
-
-
-
 <nav class="fixed-top navbar navbar-expand-lg navbar-dark bg-dark">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-category" aria-controls="navbarSupportedContent-category" aria-expanded="false" aria-label="Toggle navigation">
-        <span><i style="font-size:20px" class="fa">&#xf0c9;</i></span>
-    </button>
-
     <a class="brand" href="#"><img style="height:3rem;" src="{% static 'shop/logo.png'%}"> Vegicle</a>
 
     <ul>
@@ -39,11 +28,6 @@
 
         <li class="about">
             <a href="/about">About</a>
-        </li>
-
-
-        <li class="membership">
-            <a href="/membership">Membership |</a>
         </li>
 
         <li class="nav-item dropdown">
@@ -80,7 +64,6 @@
         <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="/about" type="button">ABOUT</a>
             <a class="dropdown-item" href="/blog" type="button">BLOG</a>
-            <a class="dropdown-item" href="/membership" type="button">MEMBERSHIP</a>
         </div>
     </div>
 
@@ -95,36 +78,7 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent-category">
-
-        <div class="wrapper-mob">
-            <div class="sidebar">
-                <h3 style="color:ligthgray;">Categories</h3>
-                <ul>
-                    {% for product, range, n in allProds %}
-                    <li><a class="" href="#">{{product.0.category}}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </div>
 </nav>
-
-<!--        sidebar categories-->
-
-<div style="top:60px;" class="wrapper">
-    <div class="sidebar">
-        <h3>Categories</h3>
-        <ul class="categorya">
-            {% for product, range, n in allProds %}
-            <li><a class="" href="#">{{product.0.category}}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
-</div>
-
-<!--      end  sidebar categories-->
-
 <div style="margin-top:65px;" class="main_content">
 
     {% block body %} {% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'shop/basic.html' %}
+
+{% load static %}
+{% block title%} My Cart{% endblock %}
+{% block body %}
+<style rel="stylesheet">
+  .main_content{
+    margin-left: 0px;
+}
+.wrapper{
+  display:none;
+}
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box-element">
+            <a class="btn btn-outline-success" href="{% url 'ShopHome' %}">Continue Shopping </a>
+             <th><a style="float:right;margin:5px;" class="btn btn-success" href="{% url 'Checkout' %}">Checkout</a> </th>
+        </div>
+
+
+        <br>
+
+    {% if cart %}
+        <div class="box-element">
+
+<hr>
+                {% for cart_item in cart %}
+                <div class="cart-row">
+                    <div style="flex:1"><img style="width:100px;" class="row-img" src='/media/{{cart_item.item.product.image}}'></div>&nbsp&nbsp
+                    <div style="flex:1"><strong>{{cart_item.item.product.product_name}}</strong><br>
+                        {{ cart_item.varient.quantity_number }} {{ cart_item.varient.quantity_measure }}
+
+<br>
+<br>
+                        <input style="width: 4rem; " class="cart-quantity-input" id="{{ cart_item.item.id }}" type="number" value="{{cart_item.item.quantity}}" min=1>
+                    </div>
+
+                    <div style="flex:1">
+                        <strong>Rs. {{cart_item.item.total_price}}</strong>
+                    </div>
+                    <div style="flex:1">
+                          <img class="chg-quantity remove_product" id="{{ cart_item.item.product.id }}" src="{% static 'shop/cross.png' %}">
+                    </div>
+
+                </div>
+                {% endfor %}
+                <div class="text-right">
+                    <strong>Subtotal: Rs. {{ subtotal }}</strong>
+                </div>
+        </div>
+    {% else %}
+        <strong class="text-center d-block">The cart is empty</strong>
+    {% endif %}
+    </div>
+            </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+    <script>
+      $('.remove_product').click(function(){
+                let product_id = $(this).attr('id');
+
+                $.ajax({
+                    url: '../remove-from-cart/',
+                    type: 'POST',
+                    data: {
+                        product_id: product_id,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: () => {
+                        alert('The product was deleted from cart!');
+                        location.reload();  // Reload the page after deleting for cart updating},
+                    },
+                    error: message_from_server => console.error('An error occurred: ' + message_from_server)
+                });
+            });
+
+      $('.cart-quantity-input').change(function() {
+          let newQuantity = $(this).val();
+          let itemId = $(this).attr('id');
+
+          if (newQuantity > 0) {
+            $.ajax({
+               url: '../update-cart-item',
+               type: 'POST',
+               data: {
+                   item_id: itemId,
+                   new_quantity: newQuantity,
+                   csrfmiddlewaretoken: '{{ csrf_token }}'
+               },
+                error: message_from_server => console.error('An error occurred: ' + message_from_server),
+                success: () => location.reload()
+            });
+          } else {
+              console.error('Such a quantity is not allowed!');
+              alert('Such a quantity is not allowed!');
+              location.reload();
+          }
+      })
+    </script>
+{% endblock %}
