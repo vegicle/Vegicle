@@ -94,6 +94,7 @@
         </div>
     </div>
     {% endblock %}
+</div>
     {% block js %}
     <script>
     $('#checkout-form').submit(function(event) {
@@ -102,6 +103,7 @@
         $.ajax({
             url: '',
             data: {
+
                 firstName: form.firstName.value,
                 lastName: form.lastName.value,
                 email: form.email.value,
@@ -122,4 +124,4 @@
         });
     });
 </script>
-    {% endblock %}
+{% endblock %}
